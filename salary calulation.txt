@@ -1,0 +1,45 @@
+---------------------------------------------------- Disable Fields -----------------------------------------------
+
+
+disable This_Month_Salary;
+disable Salary;
+disable Employee_Code;
+
+
+---------------------------------------------------- Fill Salary into salary field ----------------------------------
+
+
+response = Employee_Registration[ID != 0];
+sal = response.Salary;
+code = response.Registration_Number;
+input.Salary = sal;
+input.Employee_Code = code;
+
+
+
+---------------------------------------------------- Calculate Salary ------------------------------------------
+
+
+myDate = today;
+nbDaysInMonth = ((eomonth(myDate,0).addDay(1) - toStartOfMonth(myDate))) / (1000 * 60 * 60 * 24);
+per_day_salary = input.Salary / nbDaysInMonth;
+working_day_salary = input.Number_of_working_Days * per_day_salary;
+if(input.Number_of_Extra_Day_Working != null)
+{
+	extra_working_salary = input.Number_of_Extra_Day_Working * per_day_salary;
+}
+else
+{
+	extra_working_salary = 0 * per_day_salary;
+}
+total_salary = working_day_salary + extra_working_salary;
+input.This_Month_Salary = total_salary;
+
+
+---------------------------------------------------- autofill_values of leave days ----------------------------------
+
+
+myDate = today;
+nbDaysInMonth = ((eomonth(myDate,0).addDay(1) - toStartOfMonth(myDate))) / (1000 * 60 * 60 * 24);
+input.Leave_days = nbDaysInMonth - input.Number_of_working_Days;
+input.Number_of_Extra_Day_Working = null;
