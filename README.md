@@ -1,1 +1,1 @@
-Calculate Dayts of Employee
+Calculate leaves of Employee
